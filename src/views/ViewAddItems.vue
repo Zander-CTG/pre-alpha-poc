@@ -14,17 +14,22 @@ const backendStore = useBackendStore()
 
 async function onHello() {
   try {
-    const {
-      data: { session },
-      error: sessionError,
-    } = await backendStore.supabase?.auth.getSession()
-
-    if (sessionError || !session) {
-      log.error('No user session found', sessionError)
+    if (!backendStore.supabase) {
+      log.error('Supabase client is not initialized')
       return
     }
 
-    const { data, error } = await backendStore.supabase?.functions.invoke('hello-world', {
+    const {
+      data: { session },
+      error: sessionError,
+    } = await backendStore.supabase.auth.getSession()
+
+    if (sessionError || !session) {
+      log.error('No user session found', { sessionError })
+      return
+    }
+
+    const { data, error } = await backendStore.supabase.functions.invoke('hello-world', {
       headers: {
         Authorization: `Bearer ${session.access_token}`,
         'Content-Type': 'application/json',
