@@ -33,6 +33,10 @@ export const useSettingsStore = defineStore('settings', {
       return state.settings.find((s: SettingType) => s.id === SettingIdEnum.LOGIN_DIALOG)
         ?.value as boolean
     },
+    darkMode: (state) => {
+      return state.settings.find((s: SettingType) => s.id === SettingIdEnum.DARK_MODE)
+        ?.value as boolean
+    },
     consoleLogs: (state) => {
       return state.settings.find((s: SettingType) => s.id === SettingIdEnum.CONSOLE_LOGS)
         ?.value as boolean

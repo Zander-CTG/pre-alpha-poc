@@ -3,11 +3,13 @@ import useLogger from '@/composables/useLogger'
 import { localDatabase } from '@/services/local-database'
 import { appTitle } from '@/shared/constants'
 import { LocalTableEnum, SettingIdEnum } from '@/shared/enums'
+import { closeIcon } from '@/shared/icons'
 import { emailSchema, urlSchema } from '@/shared/schemas'
 import { useBackendStore } from '@/stores/backend'
 import { useSettingsStore } from '@/stores/settings'
 import { QSpinnerGears, useQuasar } from 'quasar'
 import { ref } from 'vue'
+import DialogConfirm from './DialogConfirm.vue'
 
 const $q = useQuasar()
 const { log } = useLogger()
@@ -18,7 +20,7 @@ const password = ref('')
 const isFormValid = ref(true)
 
 /**
- *
+ * Log the user into the Supabase backend.
  */
 async function onLogin() {
   try {
@@ -46,6 +48,28 @@ async function onLogin() {
     $q.loading.hide()
   }
 }
+
+/**
+ * Cancels the login if the user wants to remain logged outwhile using parts of the app.
+ */
+async function onCancelLogin() {
+  $q.dialog({
+    component: DialogConfirm,
+    componentProps: {
+      title: 'Cancel Login',
+      message:
+        "The application will not function correctly if you don't login. Are you sure you want to continue?",
+      color: 'negative',
+      icon: closeIcon,
+      requiresUnlock: false,
+    },
+  }).onOk(async () => {
+    await localDatabase.table(LocalTableEnum.SETTINGS).put({
+      id: SettingIdEnum.LOGIN_DIALOG,
+      value: false,
+    })
+  })
+}
 </script>
 
 <template>
@@ -66,7 +90,13 @@ async function onLogin() {
         @validation-error="isFormValid = false"
         @validation-success="isFormValid = true"
       >
-        <q-card-section class="text-h6"> {{ appTitle }} </q-card-section>
+        <q-toolbar class="q-pr-xs">
+          <q-toolbar-title>
+            {{ appTitle }}
+          </q-toolbar-title>
+
+          <q-btn flat round :icon="closeIcon" @click="onCancelLogin()" />
+        </q-toolbar>
 
         <q-card-section>
           <q-input
@@ -83,9 +113,9 @@ async function onLogin() {
             ]"
             :disable="$q.loading.isActive"
             outlined
+            clearable
             type="text"
             label="Project URL"
-            class="q-mb-sm"
           />
 
           <q-input
@@ -99,9 +129,9 @@ async function onLogin() {
             :rules="[(val: string) => val?.length > 0 || 'Project API Key is required']"
             :disable="$q.loading.isActive"
             outlined
+            clearable
             type="text"
             label="Project API Key"
-            class="q-mb-sm"
           />
 
           <q-input
@@ -118,18 +148,19 @@ async function onLogin() {
             ]"
             :disable="$q.loading.isActive"
             outlined
+            clearable
             type="email"
             label="Email"
-            class="q-mb-sm"
           />
 
           <q-input
             v-model="password"
             :rules="[(val: string) => val?.length > 0 || 'Password is required']"
             :disable="$q.loading.isActive"
+            outlined
+            clearable
             type="password"
             label="Password"
-            outlined
           />
         </q-card-section>
 

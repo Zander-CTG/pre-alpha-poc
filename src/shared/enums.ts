@@ -92,6 +92,7 @@ export enum SettingIdEnum {
   USER_EMAIL = 'User Email',
   PROJECT_URL = 'Project URL',
   PROJECT_API_KEY = 'Project API Key',
+  DARK_MODE = 'Dark Mode',
   CONSOLE_LOGS = 'Console Logs',
   INFO_POPUPS = 'Info Popups',
   LOG_RETENTION_DURATION = 'Log Rentention Duration',
