@@ -32,12 +32,35 @@ jobs:
       # Information
       - name: Workflow Information
         run: |
-          echo "Repository: ${{ github.repository }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Run ID: ${{ github.run_id }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "Event Name: ${{ github.event_name }}"
+          echo "==== Repository Information ===="
+          echo "github.repository: ${{ github.repository }}"
+          echo "github.repository_owner: ${{ github.repository_owner }}"
+          echo "github.repository_id: ${{ github.repository_id }}"
+          echo "github.repository_url: ${{ github.repository_url }}"
+
+          echo "==== Workflow Run Information ===="
+          echo "github.workflow: ${{ github.workflow }}"
+          echo "github.job: ${{ github.job }}"
+          echo "github.run_id: ${{ github.run_id }}"
+          echo "github.run_number: ${{ github.run_number }}"
+          echo "github.run_attempt: ${{ github.run_attempt }}"
+          echo "github.actor: ${{ github.actor }}"
+          echo "github.server_url: ${{ github.server_url }}"
+          echo "github.api_url: ${{ github.api_url }}"
+
+          echo "==== Git Information ===="
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref_protected: ${{ github.ref_protected }}"
+          echo "github.sha: ${{ github.sha }}"
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.event_path: ${{ github.event_path }}"
+          echo "github.event contains complex data, checking event type: ${{ github.event.type || 'N/A' }}"
+
+          echo "==== Action Information ===="
+          echo "github.action: ${{ github.action }}"
+          echo "github.action_path: ${{ github.action_path }}"
+          echo "github.workspace: ${{ github.workspace }}"
 
       # Build
       - name: Checkout
