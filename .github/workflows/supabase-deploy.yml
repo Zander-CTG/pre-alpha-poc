@@ -1,6 +1,6 @@
 name: Deploy Supabase
 
-run-name: Deploying Supabase for "${{ github.repository }}"
+run-name: Deploying Supabase changes to "${{ github.repository }}"
 
 on:
   push:
