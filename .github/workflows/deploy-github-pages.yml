@@ -1,6 +1,6 @@
 name: Deploy static content to GitHub Pages
 
-run-name: ${{ github.actor }} deploying ${{ github.repository }} to GitHub Pages
+run-name: Deploying ${{ github.repository }} to GitHub Pages
 
 on:
   push:
