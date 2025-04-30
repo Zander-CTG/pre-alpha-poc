@@ -17,7 +17,7 @@ COMMENT ON COLUMN prealpha_image_metadata.search_vector IS 'Search vector for fu
 
 CREATE TABLE IF NOT EXISTS prealpha_prompt_metadata (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  image_metadata_id UUID NOT NULL REFERENCES image_metadata(id),
+  image_metadata_id UUID NOT NULL REFERENCES prealpha_image_metadata(id),
   created_at TIMESTAMPTZ NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc'),
   request_duration INTEGER NOT NULL,
   response JSONB NOT NULL
@@ -32,7 +32,7 @@ COMMENT ON COLUMN prealpha_prompt_metadata.response IS 'Response from the prompt
 
 CREATE TABLE IF NOT EXISTS prealpha_items (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  image_metadata_id UUID NOT NULL REFERENCES image_metadata(id) ON DELETE CASCADE,
+  image_metadata_id UUID NOT NULL REFERENCES prealpha_image_metadata(id) ON DELETE CASCADE,
   user_id UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc'),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc'),
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS prealpha_items (
   brand TEXT NOT NULL,
   description TEXT NOT NULL,
   categories TEXT[] NOT NULL,
-  bounding_box NUMERIC[4] NOT NULL
+  bounding_box NUMERIC[4] NOT NULL,
   price_range NUMERIC[2] NOT NULL,
   search_vector TSVECTOR
 );
