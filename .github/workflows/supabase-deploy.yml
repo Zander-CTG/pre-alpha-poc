@@ -1,5 +1,7 @@
 name: Deploy Supabase
 
+run-name: Deploying Supabase for "${{ github.repository }}"
+
 on:
   push:
     branches:
