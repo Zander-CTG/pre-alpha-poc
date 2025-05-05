@@ -36,21 +36,21 @@ export const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // https://www.fleavision.com, no localhost in prod
   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apiKey',
+  'Content-Type': 'application/json',
 }
 
 export function successResponse<T>(
   data: T,
   status: StatusCode = StatusCode.OK,
   headers: HeadersInit = {},
-  log: boolean = false,
+  isLogged: boolean = false,
 ): Response {
-  if (log) {
+  if (isLogged) {
     console.log('Success:', { data, status })
   }
   return new Response(JSON.stringify(data), {
     status,
     headers: {
-      'Content-Type': 'application/json',
       ...corsHeaders,
       ...headers,
     },
@@ -62,12 +62,14 @@ export function errorResponse(
   code: ErrorCode = ErrorCode.INTERNAL_ERROR,
   status: StatusCode = StatusCode.INTERNAL_SERVER_ERROR,
   headers: HeadersInit = {},
+  isLogged: boolean = true,
 ): Response {
-  console.error('Error:', { message, code, status })
+  if (isLogged) {
+    console.error('Error:', { message, code, status })
+  }
   return new Response(JSON.stringify(message), {
     status,
     headers: {
-      'Content-Type': 'application/json',
       ...corsHeaders,
       ...headers,
     },
