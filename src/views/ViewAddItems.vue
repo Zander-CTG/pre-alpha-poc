@@ -33,7 +33,6 @@ async function onHello() {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${session.access_token}`,
-        'Content-Type': 'application/json',
       },
       body: {
         name: 'John Doe',
