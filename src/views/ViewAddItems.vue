@@ -35,7 +35,6 @@ async function onHello() {
       },
       body: {
         name: 'John Doe',
-        // test: 123,
       },
     })
 

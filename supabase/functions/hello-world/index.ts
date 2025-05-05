@@ -11,6 +11,14 @@ Deno.serve(async (req) => {
     return optionsResponse()
   }
 
+  if (req.method !== 'POST') {
+    return errorResponse(
+      'Method not allowed',
+      ErrorCode.METHOD_NOT_ALLOWED,
+      StatusCode.METHOD_NOT_ALLOWED,
+    )
+  }
+
   const body = await req.json()
   const { name } = body || {}
 

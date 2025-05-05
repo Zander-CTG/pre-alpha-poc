@@ -35,12 +35,11 @@ export enum ErrorCode {
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // https://www.fleavision.com, no localhost in prod
   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apiKey',
-  'Content-Type': 'application/json',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey',
 }
 
 export function optionsResponse(): Response {
-  return new Response(null, {
+  return new Response('ok', {
     status: StatusCode.NO_CONTENT,
     headers: corsHeaders,
   })
@@ -56,7 +55,10 @@ export function successResponse<T>(
   }
   return new Response(JSON.stringify(data), {
     status,
-    headers: corsHeaders,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+    },
   })
 }
 
@@ -71,6 +73,9 @@ export function errorResponse(
   }
   return new Response(JSON.stringify(message), {
     status,
-    headers: corsHeaders,
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+    },
   })
 }
