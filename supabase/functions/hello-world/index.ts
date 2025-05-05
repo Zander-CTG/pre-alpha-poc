@@ -1,17 +1,14 @@
 import {
-  corsHeaders,
   ErrorCode,
   errorResponse,
+  optionsResponse,
   StatusCode,
   successResponse,
 } from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      status: StatusCode.NO_CONTENT,
-      headers: corsHeaders,
-    })
+    return optionsResponse()
   }
 
   const body = await req.json()

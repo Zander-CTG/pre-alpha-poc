@@ -39,13 +39,11 @@ export const corsHeaders = {
   'Content-Type': 'application/json',
 }
 
-export async function corsPreflight(method: string): Promise<Response | undefined> {
-  if (method === 'OPTIONS') {
-    return new Response(null, {
-      status: StatusCode.NO_CONTENT,
-      headers: corsHeaders,
-    })
-  }
+export function optionsResponse(): Response {
+  return new Response(null, {
+    status: StatusCode.NO_CONTENT,
+    headers: corsHeaders,
+  })
 }
 
 export function successResponse<T>(
