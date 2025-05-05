@@ -39,21 +39,26 @@ export const corsHeaders = {
   'Content-Type': 'application/json',
 }
 
+export function corsPreflight(req: Request): Response | undefined {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: StatusCode.NO_CONTENT,
+      headers: corsHeaders,
+    })
+  }
+}
+
 export function successResponse<T>(
   data: T,
   status: StatusCode = StatusCode.OK,
-  headers: HeadersInit = {},
   isLogged: boolean = false,
 ): Response {
   if (isLogged) {
-    console.log('Success:', { data, status })
+    console.log('SUCCESS:', { data, status })
   }
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      ...corsHeaders,
-      ...headers,
-    },
+    headers: corsHeaders,
   })
 }
 
@@ -61,17 +66,13 @@ export function errorResponse(
   message: string,
   code: ErrorCode = ErrorCode.INTERNAL_ERROR,
   status: StatusCode = StatusCode.INTERNAL_SERVER_ERROR,
-  headers: HeadersInit = {},
   isLogged: boolean = true,
 ): Response {
   if (isLogged) {
-    console.error('Error:', { message, code, status })
+    console.error('ERROR:', { message, code, status })
   }
   return new Response(JSON.stringify(message), {
     status,
-    headers: {
-      ...corsHeaders,
-      ...headers,
-    },
+    headers: corsHeaders,
   })
 }
