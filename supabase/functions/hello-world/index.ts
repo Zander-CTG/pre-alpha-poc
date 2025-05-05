@@ -10,13 +10,10 @@ import {
 console.log('Hello World function started')
 
 Deno.serve(async (req) => {
-  console.log('Request received:', req.method, req.url)
+  console.log('Request received:', req.method)
 
   if (req.method === HttpMethod.OPTIONS) {
-    return new Response(null, {
-      status: StatusCode.OK,
-      headers: corsHeaders,
-    })
+    return new Response(null, { headers: corsHeaders })
   }
 
   try {
