@@ -39,8 +39,8 @@ export const corsHeaders = {
   'Content-Type': 'application/json',
 }
 
-export function corsPreflight(req: Request): Response | undefined {
-  if (req.method === 'OPTIONS') {
+export function corsPreflight(method: string): Response | undefined {
+  if (method === 'OPTIONS') {
     return new Response(null, {
       status: StatusCode.NO_CONTENT,
       headers: corsHeaders,

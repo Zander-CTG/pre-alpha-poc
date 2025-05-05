@@ -7,7 +7,7 @@ import {
 } from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
-  corsPreflight(req)
+  corsPreflight(req.method)
 
   const body = await req.json()
   const { name } = body || {}
