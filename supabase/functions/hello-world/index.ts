@@ -7,10 +7,14 @@ import {
   successResponse,
 } from '../_shared/response.ts'
 
+console.log('Hello World function started')
+
 Deno.serve(async (req) => {
+  console.log('Request received:', req.method, req.url)
+
   if (req.method === HttpMethod.OPTIONS) {
     return new Response(null, {
-      status: 204,
+      status: StatusCode.OK,
       headers: corsHeaders,
     })
   }
