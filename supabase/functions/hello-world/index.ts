@@ -1,52 +1,54 @@
-import {
-  corsHeaders,
-  ErrorCode,
-  errorResponse,
-  HttpMethod,
-  StatusCode,
-  successResponse,
-} from '../_shared/response.ts'
-
 Deno.serve(async (req) => {
-  if (req.method === HttpMethod.OPTIONS) {
-    return new Response(null, {
-      status: 204,
-      headers: corsHeaders,
-    })
-  }
+  console.log('Request received:', req.method, req.url)
 
-  try {
-    if (req.method !== HttpMethod.POST) {
-      return errorResponse(
-        'Method not allowed',
-        ErrorCode.METHOD_NOT_ALLOWED,
-        StatusCode.METHOD_NOT_ALLOWED,
-      )
-    }
+  return new Response('Hello World!', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  })
 
-    // Parse the request body
-    const body = await req.json().catch(() => ({}))
-    const { name } = body
+  // if (req.method === HttpMethod.OPTIONS) {
+  //   return new Response(null, {
+  //     status: 204,
+  //     headers: corsHeaders,
+  //   })
+  // }
 
-    // Validate input
-    if (!name) {
-      return errorResponse(
-        'Name parameter is required',
-        ErrorCode.BAD_REQUEST,
-        StatusCode.BAD_REQUEST,
-      )
-    }
+  // try {
+  //   if (req.method !== HttpMethod.POST) {
+  //     return errorResponse(
+  //       'Method not allowed',
+  //       ErrorCode.METHOD_NOT_ALLOWED,
+  //       StatusCode.METHOD_NOT_ALLOWED,
+  //     )
+  //   }
 
-    // Return successful response with data
-    return successResponse({
-      message: `Hello ${name}!`,
-    })
-  } catch (error) {
-    console.error('Error processing request:', error)
-    return errorResponse(
-      'Error processing request',
-      ErrorCode.INTERNAL_ERROR,
-      StatusCode.INTERNAL_SERVER_ERROR,
-    )
-  }
+  //   // Parse the request body
+  //   const body = await req.json().catch(() => ({}))
+  //   const { name } = body
+
+  //   // Validate input
+  //   if (!name) {
+  //     return errorResponse(
+  //       'Name parameter is required',
+  //       ErrorCode.BAD_REQUEST,
+  //       StatusCode.BAD_REQUEST,
+  //     )
+  //   }
+
+  //   // Return successful response with data
+  //   return successResponse({
+  //     message: `Hello ${name}!`,
+  //   })
+  // } catch (error) {
+  //   console.error('Error processing request:', error)
+  //   return errorResponse(
+  //     'Error processing request',
+  //     ErrorCode.INTERNAL_ERROR,
+  //     StatusCode.INTERNAL_SERVER_ERROR,
+  //   )
+  // }
 })
