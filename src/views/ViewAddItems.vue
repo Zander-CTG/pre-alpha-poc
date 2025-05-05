@@ -34,6 +34,9 @@ async function onHello() {
         Authorization: `Bearer ${session.access_token}`,
         'Content-Type': 'application/json',
       },
+      body: {
+        name: 'Mike',
+      },
     })
 
     log.info('Edge function called', { data, error })
