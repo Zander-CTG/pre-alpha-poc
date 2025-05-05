@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
   console.log('Content-Length:', req.headers.get('Content-Length'))
 
   if (req.method === HttpMethod.OPTIONS) {
-    return new Response(null, { headers: corsHeaders })
+    return new Response('Hi', { headers: corsHeaders })
   }
 
   try {
