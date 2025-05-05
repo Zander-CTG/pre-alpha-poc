@@ -1,5 +1,5 @@
 import {
-  corsPreflight,
+  corsHeaders,
   ErrorCode,
   errorResponse,
   StatusCode,
@@ -7,7 +7,12 @@ import {
 } from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
-  await corsPreflight(req.method)
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: StatusCode.NO_CONTENT,
+      headers: corsHeaders,
+    })
+  }
 
   const body = await req.json()
   const { name } = body || {}
