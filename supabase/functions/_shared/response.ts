@@ -32,38 +32,21 @@ export enum ErrorCode {
   FORBIDDEN = 'Forbidden',
 }
 
-interface ApiResponse<T> {
-  success: boolean
-  data: T | null
-  error: { message: string; code: ErrorCode } | null
-}
-
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // https://www.fleavision.com, no localhost in prod
   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apiKey',
 }
 
-export function jsonResponse<T>(
-  body: ApiResponse<T>,
-  status: StatusCode,
-  headers: HeadersInit = {},
-): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      ...corsHeaders,
-      ...headers,
-    },
-  })
-}
-
 export function successResponse<T>(
   data: T,
   status: StatusCode = StatusCode.OK,
   headers: HeadersInit = {},
+  log: boolean = false,
 ): Response {
+  if (log) {
+    console.log('Success:', { data, status })
+  }
   return new Response(JSON.stringify(data), {
     status,
     headers: {
@@ -80,5 +63,13 @@ export function errorResponse(
   status: StatusCode = StatusCode.INTERNAL_SERVER_ERROR,
   headers: HeadersInit = {},
 ): Response {
-  return jsonResponse({ success: false, data: null, error: { message, code } }, status, headers)
+  console.error('Error:', { message, code, status })
+  return new Response(JSON.stringify(message), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders,
+      ...headers,
+    },
+  })
 }

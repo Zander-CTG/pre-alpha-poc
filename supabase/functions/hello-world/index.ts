@@ -21,6 +21,7 @@ Deno.serve(async (req) => {
   const { name } = body || {}
 
   if (!name) {
+    console.warn('Name is required')
     return errorResponse(
       'Name is required',
       ErrorCode.INTERNAL_ERROR,
