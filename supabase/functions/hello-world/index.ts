@@ -9,6 +9,8 @@ import {
 
 Deno.serve(async (req) => {
   console.log('Request:', req.method)
+  console.log('Content-Type:', req.headers.get('Content-Type'))
+  console.log('Content-Length:', req.headers.get('Content-Length'))
 
   if (req.method === HttpMethod.OPTIONS) {
     return new Response(null, { headers: corsHeaders })
@@ -23,28 +25,49 @@ Deno.serve(async (req) => {
       )
     }
 
-    const body = await req.json().catch((err) => {
-      console.error('Error parsing JSON:', err)
-      return errorResponse('Invalid JSON', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
-    })
+    // Check if request has a body before attempting to parse
+    const contentLength = req.headers.get('Content-Length')
+    if (!contentLength || parseInt(contentLength) === 0) {
+      console.warn('Empty request body received')
+      return errorResponse('Empty request body', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+    }
 
-    console.log('Request body:', body)
+    try {
+      const bodyText = await req.text()
+      console.log('Raw request body text:', bodyText)
 
-    const { name } = body || {}
+      // Guard against empty body
+      if (!bodyText) {
+        return errorResponse('Empty request body', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+      }
 
-    // Validate input
-    if (!name) {
+      // Parse the JSON manually
+      const body = JSON.parse(bodyText)
+      console.log('Parsed request body:', body)
+
+      const { name } = body || {}
+
+      // Validate input
+      if (!name) {
+        return errorResponse(
+          'Name parameter is required',
+          ErrorCode.BAD_REQUEST,
+          StatusCode.BAD_REQUEST,
+        )
+      }
+
+      // Return successful response with data
+      return successResponse({
+        message: `Hello ${name}!`,
+      })
+    } catch (jsonError) {
+      console.error('Error parsing JSON:', jsonError)
       return errorResponse(
-        'Name parameter is required',
+        `Invalid JSON: ${jsonError.message}`,
         ErrorCode.BAD_REQUEST,
         StatusCode.BAD_REQUEST,
       )
     }
-
-    // Return successful response with data
-    return successResponse({
-      message: 'Hello World',
-    })
   } catch (error) {
     console.error('Error processing request:', error)
     return errorResponse(
