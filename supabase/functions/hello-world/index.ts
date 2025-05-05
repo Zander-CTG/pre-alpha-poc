@@ -7,7 +7,7 @@ import {
   successResponse,
 } from '../_shared/response.ts'
 
-Deno.serve(async (req) => {
+Deno.serve((req) => {
   console.log('Request:', req.method, req.body)
 
   if (req.method === HttpMethod.OPTIONS) {
@@ -23,22 +23,9 @@ Deno.serve(async (req) => {
       )
     }
 
-    // Parse the request body
-    const body = await req.json().catch(() => ({}))
-    const { name } = body
-
-    // Validate input
-    if (!name) {
-      return errorResponse(
-        'Name parameter is required',
-        ErrorCode.BAD_REQUEST,
-        StatusCode.BAD_REQUEST,
-      )
-    }
-
     // Return successful response with data
     return successResponse({
-      message: `Hello ${name}!`,
+      message: 'Hello World',
     })
   } catch (error) {
     console.error('Error processing request:', error)
