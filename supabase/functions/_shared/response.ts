@@ -64,7 +64,14 @@ export function successResponse<T>(
   status: StatusCode = StatusCode.OK,
   headers: HeadersInit = {},
 ): Response {
-  return jsonResponse({ success: true, data, error: null }, status, headers)
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      ...corsHeaders,
+      ...headers,
+    },
+  })
 }
 
 export function errorResponse(

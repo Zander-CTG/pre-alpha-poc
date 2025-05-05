@@ -1,10 +1,4 @@
-import {
-  corsHeaders,
-  ErrorCode,
-  errorResponse,
-  StatusCode,
-  successResponse,
-} from '../_shared/response.ts'
+import { corsHeaders, StatusCode, successResponse } from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -21,8 +15,9 @@ Deno.serve(async (req) => {
   const { name } = body || {}
 
   if (!name) {
-    return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+    // return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+    throw new Error('Name is required')
   } else {
-    return successResponse<{ message: string }>({ message: `Hello, ${name}!` })
+    return successResponse({ message: `Hello, ${name}!` })
   }
 })

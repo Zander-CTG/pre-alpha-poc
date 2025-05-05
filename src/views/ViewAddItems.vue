@@ -34,7 +34,8 @@ async function onHello() {
         Authorization: `Bearer ${session.access_token}`,
       },
       body: {
-        name: 'John Doe',
+        // name: 'John Doe',
+        test: 123,
       },
     })
 
