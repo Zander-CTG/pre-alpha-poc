@@ -1,5 +1,9 @@
 {
   "imports": {
     "@supabase/functions-js/edge-runtime": "jsr:@supabase/functions-js/edge-runtime"
+  },
+  "compilerOptions": {
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false
   }
 }
