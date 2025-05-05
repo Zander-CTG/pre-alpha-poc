@@ -1,4 +1,10 @@
-import { StatusCode, corsHeaders } from '../_shared/response.ts'
+import {
+  corsHeaders,
+  ErrorCode,
+  errorResponse,
+  StatusCode,
+  successResponse,
+} from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -16,21 +22,16 @@ Deno.serve(async (req) => {
     const { name } = body || {}
 
     if (!name) {
-      return new Response(JSON.stringify({ error: 'Name is required' }), {
-        status: StatusCode.BAD_REQUEST,
-        headers: corsHeaders,
-      })
+      return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
     } else {
-      return new Response(JSON.stringify({ message: `Hello, ${name}!` }), {
-        status: StatusCode.OK,
-        headers: corsHeaders,
-      })
+      return successResponse<{ message: string }>({ message: `Hello, ${name}!` })
     }
   } catch (e) {
     console.error('Error:', e)
-    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
-      status: StatusCode.BAD_REQUEST,
-      headers: corsHeaders,
-    })
+    return errorResponse(
+      'Function Error',
+      ErrorCode.INTERNAL_ERROR,
+      StatusCode.INTERNAL_SERVER_ERROR,
+    )
   }
 })

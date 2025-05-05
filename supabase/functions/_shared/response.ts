@@ -47,7 +47,7 @@ export const corsHeaders = {
 
 export function jsonResponse<T>(
   body: ApiResponse<T>,
-  status: StatusCode = StatusCode.OK,
+  status: StatusCode,
   headers: HeadersInit = {},
 ): Response {
   return new Response(JSON.stringify(body), {
@@ -59,14 +59,19 @@ export function jsonResponse<T>(
   })
 }
 
-export function successResponse<T>(data: T, status: StatusCode = StatusCode.OK): Response {
-  return jsonResponse({ success: true, data, error: null }, status)
+export function successResponse<T>(
+  data: T,
+  status: StatusCode = StatusCode.OK,
+  headers: HeadersInit = {},
+): Response {
+  return jsonResponse({ success: true, data, error: null }, status, headers)
 }
 
 export function errorResponse(
   message: string,
   code: ErrorCode = ErrorCode.INTERNAL_ERROR,
   status: StatusCode = StatusCode.INTERNAL_SERVER_ERROR,
+  headers: HeadersInit = {},
 ): Response {
-  return jsonResponse({ success: false, data: null, error: { message, code } }, status)
+  return jsonResponse({ success: false, data: null, error: { message, code } }, status, headers)
 }
