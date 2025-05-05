@@ -7,8 +7,8 @@ import {
   successResponse,
 } from '../_shared/response.ts'
 
-Deno.serve((req) => {
-  console.log('Request:', req.method, req.body)
+Deno.serve(async (req) => {
+  console.log('Request:', req.method)
 
   if (req.method === HttpMethod.OPTIONS) {
     return new Response(null, { headers: corsHeaders })
@@ -20,6 +20,17 @@ Deno.serve((req) => {
         'Method not allowed',
         ErrorCode.METHOD_NOT_ALLOWED,
         StatusCode.METHOD_NOT_ALLOWED,
+      )
+    }
+
+    const { name } = await req.json() //.catch(() => ({}))
+
+    // Validate input
+    if (!name) {
+      return errorResponse(
+        'Name parameter is required',
+        ErrorCode.BAD_REQUEST,
+        StatusCode.BAD_REQUEST,
       )
     }
 
