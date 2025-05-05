@@ -14,24 +14,15 @@ Deno.serve(async (req) => {
     })
   }
 
-  try {
-    const body = await req.json()
+  const body = await req.json()
 
-    console.log('Request body:', body)
+  console.log('Request body:', body)
 
-    const { name } = body || {}
+  const { name } = body || {}
 
-    if (!name) {
-      return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
-    } else {
-      return successResponse<{ message: string }>({ message: `Hello, ${name}!` })
-    }
-  } catch (e) {
-    console.error('Error:', e)
-    return errorResponse(
-      'Function Error',
-      ErrorCode.INTERNAL_ERROR,
-      StatusCode.INTERNAL_SERVER_ERROR,
-    )
+  if (!name) {
+    return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+  } else {
+    return successResponse<{ message: string }>({ message: `Hello, ${name}!` })
   }
 })

@@ -42,7 +42,6 @@ export const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // https://www.fleavision.com, no localhost in prod
   'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apiKey',
-  'Content-Type': 'application/json',
 }
 
 export function jsonResponse<T>(
@@ -53,6 +52,7 @@ export function jsonResponse<T>(
   return new Response(JSON.stringify(body), {
     status,
     headers: {
+      'Content-Type': 'application/json',
       ...corsHeaders,
       ...headers,
     },
