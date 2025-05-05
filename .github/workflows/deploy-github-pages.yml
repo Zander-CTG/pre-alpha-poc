@@ -1,6 +1,6 @@
 name: Deploy static content to GitHub Pages
 
-run-name: Deploying ${{ github.repository }} to GitHub Pages
+run-name: GitHub Pages - ${{ github.event.head_commit.message }}
 
 on:
   push:

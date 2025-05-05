@@ -8,7 +8,7 @@ import {
 } from '../_shared/response.ts'
 
 Deno.serve(async (req) => {
-  console.log('Request:', req.method, req)
+  console.log('Request:', req.method, req.body)
 
   if (req.method === HttpMethod.OPTIONS) {
     return new Response(null, { headers: corsHeaders })
