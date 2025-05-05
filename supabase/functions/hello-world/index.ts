@@ -21,7 +21,11 @@ Deno.serve(async (req) => {
   const { name } = body || {}
 
   if (!name) {
-    return errorResponse('Name is required', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+    return errorResponse(
+      'Name is required',
+      ErrorCode.INTERNAL_ERROR,
+      StatusCode.INTERNAL_SERVER_ERROR,
+    )
   } else {
     return successResponse({ message: `Hello, ${name}!` })
   }
