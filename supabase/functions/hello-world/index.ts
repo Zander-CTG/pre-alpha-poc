@@ -1,6 +1,7 @@
 import {
   ErrorCode,
   errorResponse,
+  logRequestInfo,
   optionsResponse,
   StatusCode,
   successResponse,
@@ -18,6 +19,8 @@ Deno.serve(async (req) => {
       StatusCode.METHOD_NOT_ALLOWED,
     )
   }
+
+  logRequestInfo(req)
 
   const body = await req.json()
   const { name } = body || {}
