@@ -291,7 +291,6 @@ deno_version = 2
 [functions.hello-world]
 enabled = true
 verify_jwt = true
-import_map = "./functions/hello-world/deno.json"
 entrypoint = "./functions/hello-world/index.ts"
 
 [analytics]
