@@ -283,7 +283,7 @@ policy = "oneshot"
 # Port to attach the Chrome inspector for debugging edge functions.
 inspector_port = 8083
 # The Deno major version to use.
-deno_version = 2
+deno_version = 1
 
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
@@ -291,7 +291,6 @@ deno_version = 2
 [functions.hello-world]
 enabled = true
 verify_jwt = true
-# import_map = "./functions/hello-world/deno.json"
 entrypoint = "./functions/hello-world/index.ts"
 
 [analytics]
