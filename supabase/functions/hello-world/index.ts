@@ -23,7 +23,10 @@ Deno.serve(async (req) => {
       )
     }
 
-    const { name } = await req.json() //.catch(() => ({}))
+    const body = await req.json()
+
+    console.log('Request body:', body)
+    const { name } = body || {}
 
     // Validate input
     if (!name) {
