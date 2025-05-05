@@ -34,8 +34,8 @@ export enum ErrorCode {
 
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*', // https://www.fleavision.com, no localhost in prod
-  'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, authorization, x-client-info, apikey',
+  'Access-Control-Allow-Methods': 'OPTIONS, POST',
+  'Access-Control-Allow-Headers': 'content-type, authorization, x-client-info, apikey',
 }
 
 export function optionsResponse(): Response {
