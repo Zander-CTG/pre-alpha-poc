@@ -30,6 +30,7 @@ async function onHello() {
     }
 
     const { data, error } = await backendStore.supabase.functions.invoke('hello-world', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${session.access_token}`,
         'Content-Type': 'application/json',

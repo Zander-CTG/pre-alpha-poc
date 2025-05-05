@@ -23,9 +23,13 @@ Deno.serve(async (req) => {
       )
     }
 
-    const body = await req.json()
+    const body = await req.json().catch((err) => {
+      console.error('Error parsing JSON:', err)
+      return errorResponse('Invalid JSON', ErrorCode.BAD_REQUEST, StatusCode.BAD_REQUEST)
+    })
 
     console.log('Request body:', body)
+
     const { name } = body || {}
 
     // Validate input
