@@ -19,20 +19,7 @@ async function onHello() {
       return
     }
 
-    const {
-      data: { session },
-      error: sessionError,
-    } = await backendStore.supabase.auth.getSession()
-
-    if (sessionError || !session) {
-      log.error('No user session found', { sessionError })
-      return
-    }
-
     const { data, error } = await backendStore.supabase.functions.invoke('test-endpoint', {
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-      },
       body: {
         name: 'John Tester',
       },
