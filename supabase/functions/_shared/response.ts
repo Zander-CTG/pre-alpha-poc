@@ -96,7 +96,7 @@ export function logRequestInfo(req: Request): void {
   const origin = req.headers.get('Origin') || req.headers.get('Referer') || 'unknown'
   const userAgent = req.headers.get('User-Agent') || 'unknown'
 
-  console.log('Request:', {
+  console.log('REQUEST:', {
     origin,
     userAgent,
   })
