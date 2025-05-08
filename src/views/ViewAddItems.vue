@@ -29,12 +29,12 @@ async function onHello() {
       return
     }
 
-    const { data, error } = await backendStore.supabase.functions.invoke('hello-world', {
+    const { data, error } = await backendStore.supabase.functions.invoke('test-endpoint', {
       headers: {
         Authorization: `Bearer ${session.access_token}`,
       },
       body: {
-        name: 'John Doe',
+        name: 'John Tester',
       },
     })
 
